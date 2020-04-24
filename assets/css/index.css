@@ -1,0 +1,73 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+label{
+    font-weight: 800;
+    color: black!important;
+    margin-top: 18px;
+    text-transform: capitalize;
+}
+.cont{
+    background: #a8c0ff!important;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3f2b96, #a8c0ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+#navbarColor03{
+    font-size: 1.3rem;
+    padding: 0px;
+    margin: 0px;
+}
+
+#navbarColor03 li a{
+    color: #fff;
+    font-weight: 700;
+}
+#navbarColor03 li a::first-letter{
+text-transform: uppercase;
+}
+.pm-care{
+    color: #fff!important;
+    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border: 0;
+    margin: 0 68px;
+    font-variant-caps: small-caps;
+}
+
+.pm-care:hover{
+    color: white!important;
+    
+}
+.pm-care:hover::first-letter{
+    color: red!important;
+}
+
+
+
+section.donate-online{
+    height: 156px;
+    width: 100%;
+    background-image: url('../img/capital.jpg');
+    /* position: relative; */
+}
+
+.donate-online h1{
+    position: absolute;
+    top: 150px;
+    left: 80px;
+    font-variant-caps: titling-caps;
+}
+
+
+.online-donation-form-heading{
+    width: 100%;
+    height: 60px;
+    background-color: #454545;
+    color: #fff;
+    padding: 14px 22px 0;
+}
