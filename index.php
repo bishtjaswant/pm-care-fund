@@ -120,8 +120,8 @@
           <div class="form-row">
             <div class="col-md-2 ">
               <label for="title">Title</label>
-              <select class="  custom-select" name="" id="title">
-                <!-- <option value="">Select Title</option> -->
+              <select required data-parsley-required-message="please select title from list" 	data-parsley-trigger="change" class="custom-select" name="title" id="title">
+                <option value="">Select Title</option>
                 <option value="Mr">Mr</option>
                 <option value="Mrs">Mrs</option>
                 <option value="Ms">Ms</option>
@@ -133,30 +133,31 @@
             </div> 
             <div class="col-md-5">
               <label for="lastname">last  name</label>
-              <input type="text" required  data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="blur" name="lastname" placeholder="lastname" class=" form-control" id="lastname">
+              <input type="text" required  data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="blur" data-parsley-pattern-message="Invalid last name"  name="lastname" placeholder="lastname" class=" form-control" id="lastname">
             </div>
           </div>
           <div class="form-row">
             <div class="col-md-6">
               <label for="email">email</label>
-              <input type="text" required data-parsley-type="email"	data-parsley-trigger="blur" name="email" placeholder="email" class=" form-control" id="email">
+              <input type="text" required data-parsley-type="email"	data-parsley-trigger="blur" data-parsley-type-message="please type valid email address" name="email" placeholder="email" class=" form-control" id="email">
             </div>
             <div class="col-md-6">
-              <label for="phone">phone number</label>
-              <input type="number" required data-parsley-type="integer" data-parsley-maxlength="10"		data-parsley-trigger="blur" name="phone" placeholder="phone" class=" form-control" id="phone">
-              <small class=" form-text text-muted">the country code not required</small>
+              <label for="phone">phone number</label> &nbsp;&nbsp;
+              <small style="display: inline-block;" class=" form-text text-muted">( the country code not required)</small>
+
+              <input type="number" required data-parsley-required-message="please input phone number" data-parsley-type="integer" data-parsley-length-message="entered phone number incorrect. It should have 10 characters" data-parsley-length="[10,10]"	data-parsley-trigger="blur" name="phone" placeholder="phone" class=" form-control" id="phone">
             </div>
           </div>
           <div class="form-row">
             <div class="col-md-6">
               <label for="country">country</label>
-              <select name="country" class=" custom-select">
-                <option value="india" selected disabled>India</option>
+              <select required name="country" class=" custom-select">
+                <option value="" selected disabled>India</option>
               </select>
             </div>
             <div class="col-md-6">
               <label for="state">state</label>
-              <select name="state" class=" custom-select">
+              <select required name="state" class=" custom-select">
                 <option value="delhi" selected disabled>Delhi</option>
               </select>
             </div>
@@ -165,45 +166,51 @@
           <div class="form-row">
             <div class="col-md-6">
               <label for="pincode">pincode</label>
-              <input type="number" name="pincode" placeholder="area pincode" id="" class=" form-control">
+              <input type="number" name="pincode" placeholder="area pincode" id="" class=" form-control" required data-parsley-required-message="please enter area pincode number" data-parsley-type="integer"	data-parsley-trigger="blur"   >
 
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile">
+                <input type="file" required data-parsley-required="true" data-parsley-required-message="please your avatar require" class="custom-file-input" id="customFile">
                 <label class="custom-file-label" for="customFile">Choose file</label>
               </div>
 
 
 
-              <div class="gender" style="margin: 0px;">
-
-                <label for="gender">gender</label> <br>
-
+             
                 <div class="form-row">
-
-                  <div class="col-sm-5">
-                    <div class="custom-control custom-radio custom-control-inline ">
+ 
+              
+                  <div class="col-md-5 " style="position: absolute;top:125px;">
+                  <label for="gender">Gender</label>
+                    <div class="custom-control custom-radio  ">
                       <input type="radio" value="male" id="male" name="gender" class="custom-control-input">
                       <small style="color: black;font-weight: 700;" class="custom-control-label" for="male">Male</small>
                     </div>
-                    <div class="custom-control custom-radio  custom-control-inline">
+                    <div class="custom-control custom-radio">
                       <input type="radio" value="female" id="female" name="gender" class="custom-control-input">
                       <small style="color: black;font-weight: 700;" class="custom-control-label" for="female">Female</small>
                     </div>
+                    <div class="custom-control custom-radio  ">
+                      <input type="radio" value="female" id="female" name="gender" class="custom-control-input">
+                      <small style="color: black;font-weight: 700;" class="custom-control-label" for="other">Other</small>
+                    </div>
                   </div>
-                  <div class="col-sm-7 offset-md-7">
-                    <img class=" img-thumbnail" src="./assets/img/capital.jpg" height="200" width="200" alt="">
+                  <div class="col-sm-7 offset-md-7" style="position: absolute;top:150px;">
+                    <figure>
+                    <img id="preview" class="  img-fluid img-thumbnail" src="./assets/img/capital.jpg" height="200px" width="200px" alt="">
+                    </figure>
                   </div>
                 </div>
-              </div>
+              
             </div>
             <div class="col-md-6">
               <label for="address">address</label>
-              <textarea name="address" style="margin-top: 0px; margin-bottom: 0px; height: 202px;" class=" form-control" id="" cols="30" rows="10"></textarea>
+              <textarea name="address" style="margin-top: 0px; margin-bottom: 0px; height: 202px;" class=" form-control" id="" cols="30" rows="10"  required data-parsley-required	data-parsley-trigger="blur" placeholder="enter complete resident address"
+               data-parsley-required-message="enter complete resident address"></textarea>
             </div>
           </div>
 
           <div class="form-row">
-            <div class="col-md-12" style="display: flex;justify-content: center;font-weight: bolder;">
+            <div class="col-md-12 mt-5" style="display: flex;justify-content:flex-end ;font-weight: bolder;">
               <button type="submit" class=" btn btn-success w-25 mt-5">Donate</button>
             </div>
           </div>
@@ -212,6 +219,7 @@
     </div>
   </section>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="./assets/js/custom.js"></script>
 </body>
 
 </html>
