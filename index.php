@@ -1,13 +1,19 @@
-<?php
+<?php require_once dirname(__FILE__) . "\\inc\header.php"; ?>
 
+
+
+
+
+<?php
+   
 require_once './vendor/autoload.php';
 
 if (isset($_POST['submit'])) {
 
-  
   // SAVE IMAGE
-  $folder = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR;
 
+
+  $folder = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR;
   $target_file =  $folder . time() . '-' . pathinfo($_FILES['profile']['name'])['filename'] . rand(0, 999) . '.' . pathinfo($_FILES['profile']['name'])['extension'];
 
   $temp_file = $_FILES['profile']['tmp_name'];
@@ -32,30 +38,11 @@ if (isset($_POST['submit'])) {
   if ($donor->save()) {
     move_uploaded_file($temp_file, $target_file);
     header("Location:index.php");
+    echo '<script type="text/javascript">alert("thank yoou for your  donation");</script>;';
+
   }
 }
 ?>
-<!doctype html>
-<html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="./assets/css/materia-bootstrap.min.css">
-  <link rel="stylesheet" href="./assets/css/index.css">
-  <title>Prime Minister's National Relief Fund</title>
-
-  <link href="https://pmnrf.gov.in/assets/img/favicon.ico" rel="icon" type="image/ico" />
-  <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css">
-  <!-- jquer -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <!-- javascript validation -->
-  <script src="https://parsleyjs.org/dist/parsley.min.js"></script>
-</head>
 
 <body>
 
@@ -153,8 +140,8 @@ if (isset($_POST['submit'])) {
         <div class=" p-3" style="color:red; font-size:14px;border:2px solid green;">Note: In case of any error during transaction, please wait for 72 hours before initiating a new transaction.</div>
       </div>
       <div class="card-body">
-        <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" data-parsley-validate>
-
+        <form action='<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>' method="post" enctype="multipart/form-data" data-parsley-validate>
+        
           <div class="form-row">
             <div class="col-md-2 ">
               <label for="title">Title</label>
@@ -198,7 +185,9 @@ if (isset($_POST['submit'])) {
               <label for="state">state</label>
               <select required name="state" class=" custom-select">
                 <option value="">Choose State</option>
-                <option value="delhi">Delhi</option>
+                <?php foreach (State::all() as  $ke => $value) : ?>
+                  <option value="<?php echo $value['StateName'] ?>"><?php echo $value['StateName'] ?></option>
+                <?php endforeach ?>
               </select>
             </div>
           </div>
@@ -251,14 +240,14 @@ if (isset($_POST['submit'])) {
               <label for="address">address</label>
               <textarea name="address" style="margin-top: 0px; margin-bottom: 0px; height: 260px;" class=" form-control" id="" cols="30" rows="10" required data-parsley-required data-parsley-trigger="blur" placeholder="enter complete resident address" data-parsley-required-message="enter complete resident address"></textarea>
             </div>
-          </div> 
+          </div>
 
 
           <div class="form-row">
             <label for="amt">Donation ammount</label> <br>
             <div class="col-md-12">
               <div class=" form-check form-check-inline">
-                <input   class="form-check-input" type="radio" name="donation" id="1000" value="1000">
+                <input class="form-check-input" type="radio" name="donation" id="1000" value="1000">
                 <label class="form-check-label" for="1000">1000 rs</label>
               </div>
               <div class=" form-check form-check-inline">
@@ -277,13 +266,13 @@ if (isset($_POST['submit'])) {
           </div>
 
           <div class="form-row">
-          <div class="col-md-12">
+            <div class="col-md-12">
               <label for="msg">Comment or message</label>
-              <textarea name="msg" style="margin-top: 0px; margin-bottom: 0px; height: 260px;" class=" form-control"  cols="30" rows="10"  placeholder="do you want send any messages to our corona warrior (optional)" ></textarea>
+              <textarea name="msg" style="margin-top: 0px; margin-bottom: 0px; height: 260px;" class=" form-control" cols="30" rows="10" placeholder="do you want send any messages to our corona warrior (optional)"></textarea>
             </div>
 
           </div>
-
+ 
           <div class="form-row">
             <div class="col-md-12 mt-5" style="display: flex;justify-content:flex-end ;font-weight: bolder;">
               <button type="submit" name="submit" class=" btn btn-success w-25 mt-5">Donate</button>
@@ -294,7 +283,9 @@ if (isset($_POST['submit'])) {
     </div>
   </section>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
   <script src="./assets/js/custom.js"></script>
 </body>
 
 </html>
+
