@@ -1,3 +1,40 @@
+<?php
+
+require_once './vendor/autoload.php';
+
+if (isset($_POST['submit'])) {
+
+  
+  // SAVE IMAGE
+  $folder = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR;
+
+  $target_file =  $folder . time() . '-' . pathinfo($_FILES['profile']['name'])['filename'] . rand(0, 999) . '.' . pathinfo($_FILES['profile']['name'])['extension'];
+
+  $temp_file = $_FILES['profile']['tmp_name'];
+
+  $donor = new Donor();
+  $donor->title = htmlspecialchars(strip_tags($_POST['title']));
+  $donor->firstname = htmlspecialchars(strip_tags($_POST['firstname']));
+  $donor->lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+  $donor->email = htmlspecialchars(strip_tags($_POST['email']));
+  $donor->country = htmlspecialchars(strip_tags($_POST['country']));
+  $donor->state = htmlspecialchars(strip_tags($_POST['state']));
+  $donor->gender = htmlspecialchars(strip_tags($_POST['gender']));
+  $donor->phone = htmlspecialchars(strip_tags($_POST['phone']));
+  $donor->profile = htmlspecialchars(strip_tags($target_file));
+  $donor->pincode = htmlspecialchars(strip_tags($_POST['pincode']));
+  $donor->address = htmlspecialchars(strip_tags($_POST['address']));
+  $donor->donation = htmlspecialchars(strip_tags($_POST['donation']));
+  // option message from peoopl
+  $donor->msg = htmlspecialchars(strip_tags($_POST['msg'])) ?? null;
+
+
+  if ($donor->save()) {
+    move_uploaded_file($temp_file, $target_file);
+    header("Location:index.php");
+  }
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +54,7 @@
   <!-- jquer -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- javascript validation -->
-<script src="https://parsleyjs.org/dist/parsley.min.js"></script>
+  <script src="https://parsleyjs.org/dist/parsley.min.js"></script>
 </head>
 
 <body>
@@ -116,11 +153,12 @@
         <div class=" p-3" style="color:red; font-size:14px;border:2px solid green;">Note: In case of any error during transaction, please wait for 72 hours before initiating a new transaction.</div>
       </div>
       <div class="card-body">
-        <form action="" method="post" data-parsley-validate>
+        <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" data-parsley-validate>
+
           <div class="form-row">
             <div class="col-md-2 ">
               <label for="title">Title</label>
-              <select required data-parsley-required-message="please select title from list" 	data-parsley-trigger="change" class="custom-select" name="title" id="title">
+              <select required data-parsley-required-message="please select title from list" data-parsley-trigger="change" class="custom-select" name="title" id="title">
                 <option value="">Select Title</option>
                 <option value="Mr">Mr</option>
                 <option value="Mrs">Mrs</option>
@@ -129,36 +167,38 @@
             </div>
             <div class="col-md-5">
               <label for="firstname">first name</label>
-              <input type="text" required data-parsley-pattern-message="Invalid first name" data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="blur"	 name="firstname" placeholder="firstname" class=" form-control" id="firstname">
-            </div> 
+              <input type="text" required data-parsley-pattern-message="Invalid first name" data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="blur" name="firstname" placeholder="firstname" class=" form-control" id="firstname">
+            </div>
             <div class="col-md-5">
-              <label for="lastname">last  name</label>
-              <input type="text" required  data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="blur" data-parsley-pattern-message="Invalid last name"  name="lastname" placeholder="lastname" class=" form-control" id="lastname">
+              <label for="lastname">last name</label>
+              <input type="text" required data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="blur" data-parsley-pattern-message="Invalid last name" name="lastname" placeholder="lastname" class=" form-control" id="lastname">
             </div>
           </div>
           <div class="form-row">
             <div class="col-md-6">
               <label for="email">email</label>
-              <input type="text" required data-parsley-type="email"	data-parsley-trigger="blur" data-parsley-type-message="please type valid email address" name="email" placeholder="email" class=" form-control" id="email">
+              <input type="text" required data-parsley-type="email" data-parsley-trigger="blur" data-parsley-type-message="please type valid email address" name="email" placeholder="email" class=" form-control" id="email">
             </div>
             <div class="col-md-6">
               <label for="phone">phone number</label> &nbsp;&nbsp;
               <small style="display: inline-block;" class=" form-text text-muted">( the country code not required)</small>
 
-              <input type="number" required data-parsley-required-message="please input phone number" data-parsley-type="integer" data-parsley-length-message="entered phone number incorrect. It should have 10 characters" data-parsley-length="[10,10]"	data-parsley-trigger="blur" name="phone" placeholder="phone" class=" form-control" id="phone">
+              <input type="number" required data-parsley-required-message="please input phone number" data-parsley-type="integer" data-parsley-length-message="entered phone number incorrect. It should have 10 characters" data-parsley-length="[10,10]" data-parsley-trigger="blur" name="phone" placeholder="phone" class=" form-control" id="phone">
             </div>
           </div>
           <div class="form-row">
             <div class="col-md-6">
               <label for="country">country</label>
               <select required name="country" class=" custom-select">
-                <option value="" selected disabled>India</option>
+                <option value="">Choose country</option>
+                <option value="india">India</option>
               </select>
             </div>
             <div class="col-md-6">
               <label for="state">state</label>
               <select required name="state" class=" custom-select">
-                <option value="delhi" selected disabled>Delhi</option>
+                <option value="">Choose State</option>
+                <option value="delhi">Delhi</option>
               </select>
             </div>
           </div>
@@ -166,52 +206,87 @@
           <div class="form-row">
             <div class="col-md-6">
               <label for="pincode">pincode</label>
-              <input type="number" name="pincode" placeholder="area pincode" id="" class=" form-control" required data-parsley-required-message="please enter area pincode number" data-parsley-type="integer"	data-parsley-trigger="blur"   >
+              <input type="number" name="pincode" placeholder="area pincode" id="" class=" form-control" required data-parsley-required-message="please enter area pincode number" data-parsley-type="integer" data-parsley-trigger="blur">
 
               <div class="custom-file">
-                <input type="file" required data-parsley-required="true" data-parsley-required-message="please your avatar require" class="custom-file-input" id="customFile">
+                <input type="file" required data-parsley-required="true" data-parsley-required-message="please your avatar require" name="profile" class="custom-file-input" id="customFile">
                 <label class="custom-file-label" for="customFile">Choose file</label>
               </div>
 
 
 
-             
-                <div class="form-row">
- 
-              
-                  <div class="col-md-5 " style="position: absolute;top:125px;">
+
+              <div class="form-row">
+
+                <div class="col-md-5 " style="position: absolute;top:125px;">
                   <label for="gender">Gender</label>
-                    <div class="custom-control custom-radio  ">
-                      <input type="radio" value="male" id="male" name="gender" class="custom-control-input">
-                      <small style="color: black;font-weight: 700;" class="custom-control-label" for="male">Male</small>
-                    </div>
-                    <div class="custom-control custom-radio">
-                      <input type="radio" value="female" id="female" name="gender" class="custom-control-input">
-                      <small style="color: black;font-weight: 700;" class="custom-control-label" for="female">Female</small>
-                    </div>
-                    <div class="custom-control custom-radio  ">
-                      <input type="radio" value="female" id="female" name="gender" class="custom-control-input">
-                      <small style="color: black;font-weight: 700;" class="custom-control-label" for="other">Other</small>
-                    </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
+                    <label class="form-check-label" for="male">
+                      MALE
+                    </label>
                   </div>
-                  <div class="col-sm-7 offset-md-7" style="position: absolute;top:150px;">
-                    <figure>
-                    <img id="preview" class="  img-fluid img-thumbnail" src="./assets/img/capital.jpg" height="200px" width="200px" alt="">
-                    </figure>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                    <label class="form-check-label" for="female">
+                      FEMALE
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="other" value="Other">
+                    <label class="form-check-label" for="other">
+                      OTHER
+                    </label>
                   </div>
                 </div>
-              
+                <div class="col-sm-7 offset-md-7" style="position: absolute;top:150px;">
+                  <figure>
+                    <img id="preview" class="  img-fluid img-thumbnail" src="./assets/img/capital.jpg" height="200px" width="200px" alt="">
+                  </figure>
+                </div>
+              </div>
+
             </div>
             <div class="col-md-6">
               <label for="address">address</label>
-              <textarea name="address" style="margin-top: 0px; margin-bottom: 0px; height: 202px;" class=" form-control" id="" cols="30" rows="10"  required data-parsley-required	data-parsley-trigger="blur" placeholder="enter complete resident address"
-               data-parsley-required-message="enter complete resident address"></textarea>
+              <textarea name="address" style="margin-top: 0px; margin-bottom: 0px; height: 260px;" class=" form-control" id="" cols="30" rows="10" required data-parsley-required data-parsley-trigger="blur" placeholder="enter complete resident address" data-parsley-required-message="enter complete resident address"></textarea>
+            </div>
+          </div> 
+
+
+          <div class="form-row">
+            <label for="amt">Donation ammount</label> <br>
+            <div class="col-md-12">
+              <div class=" form-check form-check-inline">
+                <input   class="form-check-input" type="radio" name="donation" id="1000" value="1000">
+                <label class="form-check-label" for="1000">1000 rs</label>
+              </div>
+              <div class=" form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="donation" id="5000" value="5000">
+                <label class="form-check-label" for="5000">5000 rs</label>
+              </div>
+              <div class=" form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="donation" id="10000" value="10000">
+                <label class="form-check-label" for="10000">10000 rs</label>
+              </div>
+              <div id="show-display-input" class=" form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="donation" id="enter">
+                <label class="form-check-label" for="enter">enter dontation amount</label>
+              </div>
             </div>
           </div>
 
           <div class="form-row">
+          <div class="col-md-12">
+              <label for="msg">Comment or message</label>
+              <textarea name="msg" style="margin-top: 0px; margin-bottom: 0px; height: 260px;" class=" form-control"  cols="30" rows="10"  placeholder="do you want send any messages to our corona warrior (optional)" ></textarea>
+            </div>
+
+          </div>
+
+          <div class="form-row">
             <div class="col-md-12 mt-5" style="display: flex;justify-content:flex-end ;font-weight: bolder;">
-              <button type="submit" class=" btn btn-success w-25 mt-5">Donate</button>
+              <button type="submit" name="submit" class=" btn btn-success w-25 mt-5">Donate</button>
             </div>
           </div>
         </form>
