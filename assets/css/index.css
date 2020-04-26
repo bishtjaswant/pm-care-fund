@@ -71,3 +71,22 @@ section.donate-online{
     color: #fff;
     padding: 14px 22px 0;
 }
+
+footer{
+    width: 100%;
+    height: 10%;
+    background: #ac7fd8;
+    border-bottom: 2px solid green;
+    
+}
+
+footer p{
+    padding: 0px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    color: white;
+    margin-top: 11px;
+    /* line-height: 12px; */
+    text-transform: capitalize;
+}
