@@ -86,7 +86,12 @@ if (isset($_POST['submit'])) {
 
 
   <section class="donate-online">
-    <h1>Donate online</h1>
+   <div>
+
+   <h1>Donate online for COVID-19 </h1>
+   <p>Your donations, large or small, will help CMDRF in supporting those affected by the virus, doctors, poor people, daily wage workers, and every other human in distress right now. It will aid the Government to prevent the shortage of protective equipment, provide proper sanitizing facilities, medical and financial aid to the healthcare workers, install COVID-19 testing kiosks, create more isolation wards, etc.</p>
+  </div>
+  
   </section>
 
 

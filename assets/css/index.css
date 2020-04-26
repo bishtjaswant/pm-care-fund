@@ -50,13 +50,12 @@ text-transform: uppercase;
 
 
 section.donate-online{
-    height: 156px;
-    width: 100%;
+    height: 245px;
+    max-width: 100%;
     background-image: url('../img/capital.jpg');
-    /* position: relative; */
 }
 
-.donate-online h1{
+.donate-online div{
     position: absolute;
     top: 150px;
     left: 80px;
