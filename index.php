@@ -11,8 +11,6 @@ require_once './vendor/autoload.php';
 if (isset($_POST['submit'])) {
 
   // SAVE IMAGE
-
-
   $folder = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR;
   $target_file =  $folder . time() . '-' . pathinfo($_FILES['profile']['name'])['filename'] . rand(0, 999) . '.' . pathinfo($_FILES['profile']['name'])['extension'];
 
@@ -31,6 +29,8 @@ if (isset($_POST['submit'])) {
   $donor->pincode = htmlspecialchars(strip_tags($_POST['pincode']));
   $donor->address = htmlspecialchars(strip_tags($_POST['address']));
   $donor->donation = htmlspecialchars(strip_tags($_POST['donation']));
+  $donor->ifsc = htmlspecialchars(strip_tags($_POST['ifsc']));
+  $donor->holdername = htmlspecialchars(strip_tags($_POST['holdername']));
   // option message from peoopl
   $donor->msg = htmlspecialchars(strip_tags($_POST['msg'])) ?? null;
 
@@ -268,6 +268,19 @@ if (isset($_POST['submit'])) {
                 <label class="form-check-label" for="enter">enter dontation amount</label>
               </div>
             </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="holdername">Bank Holder Name </label>
+               <input type="text" required data-parsley-required-message="please type holdername" name="holdername" class=" form-control" placeholder="enter bank holder  name">
+            </div>
+            <div class="col-md-6">
+              <label for="ifsc">Bank IFSC Code</label>
+               <input type="text" required data-parsley-required-message="your bank's ifsc code reqired for donation" name="ifsc" class=" form-control" placeholder="enter IFSC code">
+            </div>
+
           </div>
 
           <div class="form-row">
